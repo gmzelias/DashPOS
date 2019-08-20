@@ -1,0 +1,79 @@
+<div #formContainer [ngClass]="{'blurElement': loading}">
+<h1 mat-dialog-title>Sign Up Information</h1>
+<div mat-dialog-content>
+        <div class="aligner" >
+            <form id="signIn-form" #lForm="ngForm" [formGroup]="signInForm" (ngSubmit)="submitSignIn()" novalidate>
+
+            <mat-form-field appearance="standard" style="width: 47%; margin-bottom: 5px;" [ngClass]="{'mat-input-invalid': submitted && error?.code == 1}">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" formControlName="Name" placeholder="Name" maxlength="20"/>
+                <mat-hint style="color: red;" *ngIf="submitted && error?.code == 1 && !signInForm.controls.Name.hasError('required')">{{error.message}}</mat-hint>
+                <mat-hint style="color: red;" *ngIf="submitted && signInForm.controls.Name.hasError('required')">Field is mandatory</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 47%; margin-bottom: 5px; margin-left: 6%" [ngClass]="{'mat-input-invalid': submitted && error?.code == 2}">
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" formControlName="LastName" placeholder="Last Name" maxlength="20"/>
+                <mat-hint style="color: red;" *ngIf="submitted && error?.code == 2 && !signInForm.controls.LastName.hasError('required')">{{error.message}}</mat-hint>
+                <mat-hint style="color: red;" *ngIf="submitted && signInForm.controls.LastName.hasError('required')">Field is mandatory</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 47%; margin-bottom: 5px;" [ngClass]="{'mat-input-invalid': submitted && error?.code == 2}">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="Email" placeholder="Email" maxlength="20"/>
+                <mat-error *ngIf="signInForm.controls.Email.hasError('email')">Not a valid email</mat-error>
+                <mat-hint style="color: red;" *ngIf="error?.code == 1062">Email already exists</mat-hint>
+                <mat-hint style="color: red;" *ngIf="submitted && error?.code == 2 && !signInForm.controls.Email.hasError('required')">{{error.message}}</mat-hint>
+                <mat-hint style="color: red;" *ngIf="submitted && signInForm.controls.Email.hasError('required')">Field is mandatory</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard" style="width: 47%; margin-bottom: 5px;margin-left: 6%" [ngClass]="{'mat-input-invalid': submitted && error?.code == 2}">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hide ? 'text' : 'password'" formControlName="Password" placeholder="Password" maxlength="20"/>
+                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </button>
+                <mat-hint style="color: red;" *ngIf="submitted && error?.code == 2 && !signInForm.controls.Password.hasError('required')">{{error.message}}</mat-hint>
+                <mat-hint style="color: red;" *ngIf="submitted && signInForm.controls.Password.hasError('required')">Field is mandatory</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field style="width: 22%;">
+                <mat-label>Currency</mat-label>
+                <mat-select formControlName="Currency">
+                  <mat-option *ngFor="let currency of Currencies" value="{{currency.value}}">
+                    {{currency.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field style="width: 22%;margin-left: 3%">
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="Country">
+                  <mat-option *ngFor="let country of Countries" value="{{country.value}}">
+                    {{country.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+<!--ng-pattern="^[x X].*"-->
+            <mat-form-field appearance="standard" style="width: 100%;" [ngClass]="{'mat-input-invalid': submitted && error?.code == 2}">
+                <mat-label>Dash Address</mat-label>
+                <input matInput type="text" formControlName="DashAddress" placeholder="Dash Address"/>
+                <mat-error *ngIf="submitted && signInForm.controls.DashAddress.hasError('validUrl')">Not valid Dash address</mat-error>
+                <mat-hint style="color: red;" *ngIf="submitted && signInForm.controls.DashAddress.hasError('required')">Field is mandatory </mat-hint>
+                <mat-hint style="color: red;" *ngIf="submitted && signInForm.controls.DashAddress.hasError('minlength')">Check ddress size</mat-hint>
+                <mat-hint style="color: red;" *ngIf="submitted && signInForm.controls.DashAddress.hasError('maxlength')">Check ddress size</mat-hint>
+            </mat-form-field>    
+        
+            </form>
+        </div>
+</div>
+        
+<div mat-dialog-actions style="float: right;">
+  <p *ngIf="error?.code == 46" style="color: red;margin-right: 10px">Unexpected error, please try again</p>
+  <button style="font-size: medium;" mat-button (click)="onCancelClick()">Cancel</button>
+  <button style="font-size: medium;" mat-button cdkFocusInitial type="submit" form="signIn-form">Done</button>
+</div>
+</div>
+<div id="spinnerAPI" [hidden]="!loading">
+        <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</div>

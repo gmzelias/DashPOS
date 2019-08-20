@@ -1,0 +1,9 @@
+<mat-toolbar class="toolbarColor">
+  <span>Dash Web App</span>
+  <div class="spacer"></div>
+      <button #receiveMoneyButton   class="toolbarBts" mat-button (click)="openTx()">Receive Money</button>
+      <button #financesButton class="toolbarBts" mat-button (click)="openFinances()">Finances</button>
+      <button class="toolbarBts" mat-button>Cashier</button>
+      <button class="toolbarBts" mat-button>Profile</button>
+      <button #logoutButton class="toolbarBts" mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
