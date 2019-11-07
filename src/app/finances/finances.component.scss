@@ -2,3 +2,33 @@ table {
     width: 100%;
   }
   .mat-header-cell {    text-align: center;    }
+
+  #spinnerAPI{
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+}
+
+.blurElement{
+    filter: blur(1px);
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+#spinnerAPI ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke:  #008de4!important;
+}
+
+
+.active{
+    display: block;
+   }
+   
+   .inactive{
+       display: none;
+   }

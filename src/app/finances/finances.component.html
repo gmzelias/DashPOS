@@ -1,6 +1,6 @@
 <div>
     <h1 mat-dialog-title>Finances</h1>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" hidden [ngClass]="{'active': loading === false}">
 
   <ng-container matColumnDef="Contrato">
     <th mat-header-cell *matHeaderCellDef> Factura </th>
@@ -41,7 +41,13 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<div id="spinnerAPI" [hidden]="!loading">
+  <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</div>
 </div>
 <div mat-dialog-actions style="float: right;">
+  <p *ngIf="emptyData == true" style="color: red;margin-right: 10px">No data to show</p>
+  <p *ngIf="error?.code == 401" style="color: red;margin-right: 10px">Token Expired</p>
+  <p *ngIf="error?.code == 1" style="color: red;margin-right: 10px">Unexpected error, try again</p>
     <button style="font-size: medium;" mat-button (click)="onCancelClick()">Close</button>
 </div>

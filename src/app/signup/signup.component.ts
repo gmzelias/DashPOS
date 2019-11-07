@@ -18,6 +18,7 @@ import CurrenciesJson from "../../assets/Currencies.json";
 })
 export class SignupComponent implements OnInit {
   public Currencies: any[] = CurrenciesJson;
+  public hide: Boolean = false;
   public Countries: any[] = CountriesJson;
   signInForm = this.formBuilder.group({
     Name: ['', Validators.required],
@@ -82,7 +83,8 @@ export class SignupComponent implements OnInit {
 
 //Validate Dash Address
   ValidateUrl(control: AbstractControl) {
-    if (!control.value.startsWith('X')) {
+    //|| !control.value.startsWith('7') 
+    if (!control.value.startsWith('X') && !control.value.startsWith('7')) {
       return { validUrl: true };
     }
     return null;

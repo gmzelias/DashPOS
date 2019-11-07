@@ -23,7 +23,6 @@ export class storageService {
   }
 
   loadSessionData(): sessionObject{
-    console.log('load session');
     var sessionStr = this.localStorageService.getItem('currentUser');
     return (sessionStr) ? <sessionObject> JSON.parse(sessionStr) : null;
   }

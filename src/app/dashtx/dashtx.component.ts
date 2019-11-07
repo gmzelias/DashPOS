@@ -33,7 +33,7 @@ export class DashtxComponent implements OnInit {
     private formBuilder: FormBuilder) { 
     dialogRef.disableClose = true;
     this.currentSession = this.StorageService.getCurrentSession();
-    console.log(this.currentSession);
+   // console.log(this.currentSession);
    /* this.services.dataTable(this.currentSession).subscribe(
     data => {
     //   this.correctSignup(data);
@@ -60,21 +60,28 @@ public submitTxInfo(): void {
       monto: this.txInfoForm.value.Amount,
       contrato: this.txInfoForm.value.Invoice,
       currency:this.currentSession.currency,
+      token:this.currentSession.token
     }
     this.services.paymentProcessor(txInfo).subscribe(
       data => {
-        console.log(data);
-        this.src = `http://pp.dashhelpme.io/?idestablecimiento=${txInfo.establecimiento}&contrato=${txInfo.contrato}&currency=${txInfo.currency}&monto=${txInfo.monto}`
-        this.validPP = true;
+        if (data['result'] === '202'){
+          this.error = {code: 202, message: "Data used"};
+          this.loading = false;
+        }else{
+          this.src = `http://pp.dashhelpme.io/?idestablecimiento=${txInfo.establecimiento}&contrato=${txInfo.contrato}&currency=${txInfo.currency}&monto=${txInfo.monto}`
+          this.validPP = true;
+        }
         //this.correctSignup(data);
       },
       error => {
-        console.log(error);
+        //console.log(error);
+        if (error.error['result'] === '401') this.error = {code: 401, message: "Token Expired"};
+        else this.error = {code: 1, message: "500"}
+        this.loading = false;
       /*  this.error = error.error;
         if (this.error.code === undefined || this.error.code === 1062){
           this.error = { code:0o056,message:'Unexpected Error'}
         }*/
-        this.loading = false;
       }
     )
       }
@@ -84,11 +91,21 @@ public submitTxInfo(): void {
   ngOnInit() {
   }
   myLoadEvent(event){
-    this.loading = false;
-   console.log('kisses')
-    }
+   this.loading = false;
+   let txValObj = {
+    establecimiento: this.currentSession.user,
+    contrato: this.txInfoForm.value.Invoice,
+  }
+  console.log('start checking');
+   this.services.checkTxStatus(txValObj).subscribe(
+    data => {
+      console.log(data);
+    },
+    error => {
+      console.log(error);
+    })
+  }
     
-
   onCancelClick(): void {
     this.dialogRef.close();
   };

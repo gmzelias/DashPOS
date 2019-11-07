@@ -1,5 +1,10 @@
+<h1 mat-dialog-title [ngClass]="{'inactive': validPP === true}">Transaction Information</h1>
+<div id="PP">
+    <object id="your_iframe" (load)="myLoadEvent($event)" hidden [ngClass]="{'active': validPP === true}"
+    width="400px" height="600px" 
+     [data]="src | noSanitize"></object>
+</div>
 <div #formContainer [ngClass]="{'blurElement': loading}">
-  <h1 mat-dialog-title>Transaction Information</h1>
   <div mat-dialog-content [ngClass]="{'inactive': validPP === true}">
           <div class="aligner" >
               <form id="txInfo-Form" #lForm="ngForm" [formGroup]="txInfoForm" (ngSubmit)="submitTxInfo()" novalidate>
@@ -20,17 +25,17 @@
           </div>
    </div>
    <div mat-dialog-actions style="float: right;">
+    <p *ngIf="error?.code == 1" style="color: red;margin-right: 10px">Unexpected error, try again</p>
+    <p *ngIf="error?.code == 401" style="color: red;margin-right: 10px">Token Expired</p>
+    <p *ngIf="error?.code == 202" style="color: red;margin-right: 10px">Invoice already used</p>
     <button style="font-size: medium;" mat-button (click)="onCancelClick()">Cancel</button>
-    <button style="font-size: medium;" mat-button cdkFocusInitial type="submit" form="txInfo-Form">Done</button>
+    <button style="font-size: medium;" mat-button cdkFocusInitial type="submit" form="txInfo-Form" [ngClass]="{'inactive': validPP === true}">Done</button>
   </div>
 </div>
 
 <div id="spinnerAPI" [hidden]="!loading">
     <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
 </div>
-<div id="PP">
-    <object id="your_iframe" width="400" (load)="myLoadEvent($event)" hidden [ngClass]="{'active': validPP === true}" height="400"
-     [data]="src | noSanitize"></object>
-</div>
+
 <!---  <div [innerHtml]="myTemplate | noSanitize"></div>-->
 

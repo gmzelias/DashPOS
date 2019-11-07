@@ -39,7 +39,8 @@ export class MenuComponent implements OnInit {
 
   openTx(): void {
     const dialogRefTx = this.dialog.open(DashtxComponent, {
-     // width: '650px',
+      maxWidth: '500px',
+      maxHeight: '700px',
      // data: {name: this.name, animal: this.animal}
     }
     );

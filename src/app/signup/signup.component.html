@@ -20,7 +20,7 @@
 
             <mat-form-field appearance="standard" style="width: 47%; margin-bottom: 5px;" [ngClass]="{'mat-input-invalid': submitted && error?.code == 2}">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="Email" placeholder="Email" maxlength="20"/>
+                <input matInput type="email" formControlName="Email" placeholder="Email" maxlength="40"/>
                 <mat-error *ngIf="signInForm.controls.Email.hasError('email')">Not a valid email</mat-error>
                 <mat-hint style="color: red;" *ngIf="error?.code == 1062">Email already exists</mat-hint>
                 <mat-hint style="color: red;" *ngIf="submitted && error?.code == 2 && !signInForm.controls.Email.hasError('required')">{{error.message}}</mat-hint>

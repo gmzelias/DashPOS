@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public submitted: Boolean = false;
+  public hide: Boolean = false;
   public error: {code: number, message: string} = null;
   public loading: Boolean = false;
 
